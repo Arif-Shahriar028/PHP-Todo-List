@@ -37,16 +37,20 @@ $rows = $statement->fetchAll(PDO::FETCH_ASSOC);
                   <h5 class="modal-title">Add Task</h5>
                   <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                 </div>
+                <!-- Add task modal -->
                 <div class="modal-body">
+                  <!-- Set action of form -->
                   <form method="POST" action="add.php">
                     <div class="mb-3">
                       <label for="addTaskText" class="form-label">Your task</label>
                       <input type="text" name="task" required class="form-control" id="addTaskText" aria-describedby="emailHelp">
                       <div id="emailHelp" class="form-text">Text should not be too long.</div>
                     </div>
+                    <!-- Form submit button -->
                     <input type="submit" name="send" class="btn btn-primary">
                   </form>
                 </div>
+                <!-- Modal Close button -->
                 <div class="modal-footer">
                   <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
                 </div>
@@ -67,9 +71,33 @@ $rows = $statement->fetchAll(PDO::FETCH_ASSOC);
             <?php foreach ($rows as $row) { ?>
               <tr>
                 <th scope="row"><?php echo $row['id']; ?></th>
-                <td class="col-md-10"><?php echo $row['name'];
-                                      ?></td>
-                <td><a href="" class="btn btn-primary">Edit</a></td>
+                <td class="col-md-10"><?php echo $row['name']; ?></td>
+                <td><a href="" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#editTaskModal<?php echo $row['id']; ?>">Edit</a></td>
+                <!-- Add a unique id to every modal for edit task -->
+                <div class="modal" tabindex="-1" id="editTaskModal<?php echo $row['id']; ?>">
+                  <div class="modal-dialog">
+                    <div class="modal-content">
+                      <div class="modal-header">
+                        <h5 class="modal-title">Edit Task</h5>
+                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                      </div>
+                      <div class="modal-body">
+                        <form method="POST" action="edit.php">
+                          <div class="mb-3">
+                            <label for="editTaskText" class="form-label">Your task</label>
+                            <input type="text" name="edit-task" required class="form-control" id="editTaskText" aria-describedby="emailHelp" value="<?php echo $row['name'] ?>">
+                            <input type="hidden" name="edit-id" value="<?php echo $row['id'] ?>">
+                            <div id="emailHelp" class="form-text">Text should not be too long.</div>
+                          </div>
+                          <input type="submit" name="edit" class="btn btn-primary">
+                        </form>
+                      </div>
+                      <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                      </div>
+                    </div>
+                  </div>
+                </div>
                 <td><a href="delete.php?id=<?php echo $row['id'] ?>" class="btn btn-danger">delete</a></td>
               </tr>
             <?php } ?>

@@ -12,6 +12,9 @@ if (isset($_POST)) {
   ]);
   if ($val) {
     header('location: index.php');
+    // echo '<pre>';
+    // var_dump($_POST);
+    // echo '</pre>';
   } else {
     echo "Not inserted";
   }
